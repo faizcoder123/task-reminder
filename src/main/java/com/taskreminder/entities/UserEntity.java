@@ -1,5 +1,6 @@
 package com.taskreminder.entities;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -11,6 +12,7 @@ import java.util.UUID;
 
 @Entity
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -24,7 +26,8 @@ import java.util.UUID;
 })
 public class UserEntity {
         @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @GeneratedValue
+        @Column(name = "ownerId", columnDefinition = "uuid", updatable = false)
         private UUID ownerId;
 
         @NotBlank

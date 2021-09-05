@@ -17,5 +17,4 @@ public class TaskReminderApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TaskReminderApplication.class, args);
 	}
-
 }
