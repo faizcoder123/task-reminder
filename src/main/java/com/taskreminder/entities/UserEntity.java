@@ -6,8 +6,8 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.List;
-import java.util.UUID;
 
 
 @Entity
@@ -18,17 +18,14 @@ import java.util.UUID;
 @ToString
 @Table(name = "users", uniqueConstraints = {
         @UniqueConstraint(columnNames = {
-                "userName"
-        }),
-        @UniqueConstraint(columnNames = {
                 "email"
         })
 })
-public class UserEntity {
+public class UserEntity implements Serializable {
         @Id
         @GeneratedValue
-        @Column(name = "ownerId", columnDefinition = "uuid", updatable = false)
-        private UUID ownerId;
+        @Column(name = "ownerId", updatable = false)
+        private long ownerId;
 
         @NotBlank
         @Size(min=3, max = 10)
@@ -49,7 +46,7 @@ public class UserEntity {
         private String phoneNo;
 
         @OneToMany(targetEntity = TaskEntity.class, cascade = CascadeType.ALL)
-        @JoinColumn(name = "owner", referencedColumnName = "ownerId")
+        @JoinColumn(name = "owner", referencedColumnName = "email")
         List<TaskEntity> tasksOwned;
 
 }

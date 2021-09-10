@@ -6,7 +6,6 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.ZonedDateTime;
-import java.util.UUID;
 
 @Entity
 @Data
@@ -18,8 +17,8 @@ public class TaskEntity {
 
     @Id
     @GeneratedValue
-    @Column(columnDefinition = "uuid", updatable = false)
-    private UUID id;
+    @Column(updatable = false)
+    private long id;
 
     @NotBlank
     @Column(name = "subject")
