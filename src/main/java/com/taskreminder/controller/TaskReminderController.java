@@ -32,9 +32,9 @@ public class TaskReminderController {
         return new ResponseEntity<>(taskService.getTask(id), HttpStatus.OK);
     }
 
-    @GetMapping("/task/{UserMail}")
-    public ResponseEntity<List<TaskEntity>> getAllTasksBelongsToUser(@PathVariable String email) throws ApiRequestException {
-        return new ResponseEntity<>(taskService.getAllTasks(email), HttpStatus.OK);
+    @GetMapping("/task")
+    public ResponseEntity<List<TaskEntity>> getAllTasksBelongsToUser(@RequestParam(required = true) String ownerEmail) throws ApiRequestException {
+        return new ResponseEntity<>(taskService.getAllTasks(ownerEmail), HttpStatus.OK);
     }
 
     @DeleteMapping("/task/{id}")
