@@ -16,8 +16,7 @@ public class APIExceptionHandler {
     @ExceptionHandler(value = {ApiRequestException.class})
     public ResponseEntity<Object>  handleAllExceptions(ApiRequestException ex) {
         logger.error("exception occurred", ex.getCause());
-        ErrorDTO error =  new ErrorDTO(ex.getMessage(), HttpStatus.BAD_REQUEST, ZonedDateTime.now());
+        ErrorDTO error =  new ErrorDTO(ex.getMessage(), ZonedDateTime.now());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
-
 }

@@ -17,17 +17,29 @@ public class UserService {
     private UserRepository userRepository;
 
     public List<UserEntity> getAllUser() {
-        return new ArrayList<>(userRepository.findAll());
+        List<UserEntity> users = userRepository.findAll();
+        if(users.isEmpty()){
+            throw new ApiRequestException("No Users found");
+        }
+        return users;
     }
 
-    public UserEntity addNewUser(UserEntity user) {
+    public UserEntity deleteUser(long id) {
+        UserEntity user = getUser(id);
+        userRepository.deleteById(id);
+        return user;
+    }
+
+    public UserEntity saveUser(UserEntity user) {
         userRepository.save(user);
         return user;
     }
 
-//    public UserEntity updateUser() {
-//        return
-//    }
+    public UserEntity updateUser(UserEntity user, long id) {
+        getUser(id);
+        user.setOwnerId(id);
+        return saveUser(user);
+    }
 
     public UserEntity getUser(long id) {
         Optional<UserEntity> user = userRepository.findById(id);

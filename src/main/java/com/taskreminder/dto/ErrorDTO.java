@@ -12,7 +12,6 @@ import java.time.ZonedDateTime;
 @AllArgsConstructor
 public class ErrorDTO {
     private String message;
-    private HttpStatus status;
     private ZonedDateTime occurredAt;
 
 }
