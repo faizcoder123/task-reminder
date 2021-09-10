@@ -1,10 +1,15 @@
 package com.taskreminder.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.taskreminder.util.ZonedDateTimeDeserializer;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.time.ZonedDateTime;
 
 @Entity
@@ -12,8 +17,9 @@ import java.time.ZonedDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Table(name = "task")
-public class TaskEntity {
+public class TaskEntity implements Serializable {
 
     @Id
     @GeneratedValue
@@ -24,20 +30,14 @@ public class TaskEntity {
     @Column(name = "subject")
     private String subject;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    @Column(name = "created_by")
-    private ZonedDateTime createdBy;
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     @Column(name = "created_time")
     private ZonedDateTime createdTime;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     @Column(name = "dead_line")
-    @NotBlank
+    @JsonDeserialize(using = ZonedDateTimeDeserializer.class)
+    @NotNull
     private ZonedDateTime deadline;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     @Column(name = "modified_time")
     private ZonedDateTime modifiedTime;
 
@@ -47,10 +47,8 @@ public class TaskEntity {
     @Column(length = 65450, columnDefinition = "text", name = "description")
     private String description;
 
-    @Column(name = "priority")
-    private boolean priority;
+    @Column(name = "owner_email")
+    @NotBlank
+    private String ownerEmail;
 
-    @OneToMany(targetEntity = UserEntity.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "owner_mail", referencedColumnName = "email")
-    private String email;
 }

@@ -17,9 +17,9 @@ public class TaskReminderController {
     @Autowired
     private TaskService taskService;
 
-    @PostMapping(value = "/addTask/{email}")
-    public ResponseEntity<TaskEntity> addTask(@RequestBody TaskEntity task, @PathVariable String email) throws ApiRequestException {
-        return new ResponseEntity<>(taskService.addOrUpdateTask(task, email), HttpStatus.OK);
+    @PostMapping(value = "/addTask")
+    public ResponseEntity<TaskEntity> addTask(@RequestBody TaskEntity task) throws ApiRequestException {
+        return new ResponseEntity<>(taskService.addOrUpdateTask(task), HttpStatus.OK);
     }
 
     @PatchMapping(value = "/updateTask/{id}")
