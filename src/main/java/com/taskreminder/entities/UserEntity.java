@@ -44,9 +44,4 @@ public class UserEntity implements Serializable {
         @NotBlank
         @Size(min=10, max = 10)
         private String phoneNo;
-
-        @OneToMany(targetEntity = TaskEntity.class, cascade = CascadeType.ALL)
-        @JoinColumn(name = "owner", referencedColumnName = "email")
-        List<TaskEntity> tasksOwned;
-
 }

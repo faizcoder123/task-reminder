@@ -3,6 +3,7 @@ package com.taskreminder.entities;
 public enum Status {
     COMPLETED,
     STARTED,
-    NOT_COMPLETED_YET
+    NOT_COMPLETED_YET,
+    IN_PROGRESS
 }
 

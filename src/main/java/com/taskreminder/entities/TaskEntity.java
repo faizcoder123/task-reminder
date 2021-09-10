@@ -50,4 +50,7 @@ public class TaskEntity {
     @Column(name = "priority")
     private boolean priority;
 
+    @OneToMany(targetEntity = UserEntity.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "owner_mail", referencedColumnName = "email")
+    private String email;
 }
