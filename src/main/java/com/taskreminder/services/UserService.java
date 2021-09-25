@@ -4,6 +4,7 @@ import com.taskreminder.entities.UserEntity;
 import com.taskreminder.handler.ApiRequestException;
 import com.taskreminder.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class UserService {
     }
 
     public UserEntity saveUser(UserEntity user) {
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userRepository.save(user);
         return user;
     }
