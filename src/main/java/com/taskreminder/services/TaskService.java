@@ -5,6 +5,8 @@ import com.taskreminder.entities.TaskEntity;
 import com.taskreminder.handler.ApiRequestException;
 import com.taskreminder.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;

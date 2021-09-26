@@ -33,7 +33,7 @@ public class TaskReminderController {
         return new ResponseEntity<>(taskService.getTask(id, principal), HttpStatus.OK);
     }
 
-    @GetMapping("/task")
+    @GetMapping("/tasks")
     public ResponseEntity<List<TaskEntity>> getAllTasksBelongsToUser(Principal principal) throws ApiRequestException {
         return new ResponseEntity<>(taskService.getAllTasks(principal), HttpStatus.OK);
     }
