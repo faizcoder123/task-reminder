@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 
@@ -24,18 +25,18 @@ public class UserController {
     }
 
     @PatchMapping(value = "/updateUser/{id}")
-    public ResponseEntity<UserEntity> updateUser(@RequestBody UserEntity user, @PathVariable long id) throws ApiRequestException{
-        return new ResponseEntity<>(userService.updateUser(user, id), HttpStatus.OK);
+    public ResponseEntity<UserEntity> updateUser(@RequestBody UserEntity user, @PathVariable long id, Principal principal) throws ApiRequestException{
+        return new ResponseEntity<>(userService.updateUser(user, id, principal), HttpStatus.OK);
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<UserEntity> getUser(@PathVariable long id) throws ApiRequestException {
-        return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
+    public ResponseEntity<UserEntity> getUser(@PathVariable long id, Principal principal) throws ApiRequestException {
+        return new ResponseEntity<>(userService.getUser(id,principal), HttpStatus.OK);
     }
 
     @GetMapping("/user")
-    public ResponseEntity<UserEntity> getUserByMail(@RequestParam(required = true) String mail) throws ApiRequestException{
-        return new ResponseEntity<>(userService.getUserByGmail(mail), HttpStatus.OK);
+    public ResponseEntity<UserEntity> getUserByMail(@RequestParam(required = true) String mail, Principal principal) throws ApiRequestException{
+        return new ResponseEntity<>(userService.getUserByGmail(mail, principal.getName()), HttpStatus.OK);
     }
 
     @GetMapping("/users")
@@ -44,8 +45,8 @@ public class UserController {
     }
 
     @DeleteMapping("/user/{id}")
-    public ResponseEntity<UserEntity> deleteUser(@PathVariable long id) throws ApiRequestException {
-        return new ResponseEntity<>(userService.deleteUser(id), HttpStatus.OK);
+    public ResponseEntity<UserEntity> deleteUser(@PathVariable long id, Principal principal) throws ApiRequestException {
+        return new ResponseEntity<>(userService.deleteUser(id, principal), HttpStatus.OK);
     }
 
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,8 +25,9 @@ public class UserService {
         return users;
     }
 
-    public UserEntity deleteUser(long id) {
-        UserEntity user = getUser(id);
+    public UserEntity deleteUser(long id, Principal principal) {
+
+        UserEntity user = getUser(id, principal);
         userRepository.deleteById(id);
         return user;
     }
@@ -36,15 +38,16 @@ public class UserService {
         return user;
     }
 
-    public UserEntity updateUser(UserEntity user, long id) {
-        getUser(id);
+    public UserEntity updateUser(UserEntity user, long id, Principal principal) {
+        getUser(id, principal);
         user.setOwnerId(id);
         return saveUser(user);
     }
 
-    public UserEntity getUser(long id) {
+    public UserEntity getUser(long id, Principal principal) {
         Optional<UserEntity> user = userRepository.findById(id);
         if(user.isPresent()){
+            if(!principal.getName().equals(user.get().getEmail())) throw new ApiRequestException("Authentication failed");
             return user.get();
         }
         else {
@@ -52,7 +55,9 @@ public class UserService {
         }
     }
 
-    public UserEntity getUserByGmail(String email) {
+    public UserEntity getUserByGmail(String email, String userMail) {
+        if(!email.equals(userMail))  throw new ApiRequestException("Authentication failed");
+
         Optional<UserEntity> user = userRepository.findByEmail(email);
         if(user.isPresent()){
             return user.get();
