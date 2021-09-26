@@ -4,6 +4,7 @@ import com.taskreminder.entities.UserEntity;
 import com.taskreminder.handler.ApiRequestException;
 import com.taskreminder.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,18 +30,21 @@ public class UserService {
 
         UserEntity user = getUser(id, principal);
         userRepository.deleteById(id);
+        SecurityContextHolder.clearContext();
         return user;
     }
 
     public UserEntity saveUser(UserEntity user) {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userRepository.save(user);
+        SecurityContextHolder.clearContext();
         return user;
     }
 
     public UserEntity updateUser(UserEntity user, long id, Principal principal) {
         getUser(id, principal);
         user.setOwnerId(id);
+        SecurityContextHolder.clearContext();
         return saveUser(user);
     }
 
@@ -48,9 +52,11 @@ public class UserService {
         Optional<UserEntity> user = userRepository.findById(id);
         if(user.isPresent()){
             if(!principal.getName().equals(user.get().getEmail())) throw new ApiRequestException("Authentication failed");
+            SecurityContextHolder.clearContext();
             return user.get();
         }
         else {
+            SecurityContextHolder.clearContext();
             throw new ApiRequestException("User not found");
         }
     }
@@ -60,9 +66,11 @@ public class UserService {
 
         Optional<UserEntity> user = userRepository.findByEmail(email);
         if(user.isPresent()){
+            SecurityContextHolder.clearContext();
             return user.get();
         }
         else {
+            SecurityContextHolder.clearContext();
             throw new ApiRequestException("User not found with this Email");
         }
     }
