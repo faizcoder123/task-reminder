@@ -39,10 +39,10 @@ public class UserController {
         return new ResponseEntity<>(userService.getUserByGmail(mail, principal.getName()), HttpStatus.OK);
     }
 
-    @GetMapping("/users")
-    public ResponseEntity<List<UserEntity>> getAllUsers() throws ApiRequestException {
-        return new ResponseEntity<>(userService.getAllUser(), HttpStatus.OK);
-    }
+//    @GetMapping("/users")
+//    public ResponseEntity<List<UserEntity>> getAllUsers() throws ApiRequestException {
+//        return new ResponseEntity<>(userService.getAllUser(), HttpStatus.OK);
+//    }
 
     @DeleteMapping("/user/{id}")
     public ResponseEntity<UserEntity> deleteUser(@PathVariable long id, Principal principal) throws ApiRequestException {

@@ -33,6 +33,14 @@ public class TaskService {
         return tasks;
     }
 
+    public List<TaskEntity> getAllTasksForReminder(String user) {
+        List<TaskEntity> tasks = taskRepository.findByOwnerEmail(user);
+        if(tasks.isEmpty()){
+            throw new ApiRequestException("No Tasks found for this User");
+        }
+        return tasks;
+    }
+
     public TaskEntity deleteTask(long id, Principal principal) {
         TaskEntity task = getTask(id, principal);
         taskRepository.deleteById(id);
