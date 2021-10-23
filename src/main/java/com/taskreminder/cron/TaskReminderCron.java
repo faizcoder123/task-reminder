@@ -11,6 +11,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
@@ -32,6 +33,7 @@ public class TaskReminderCron implements CommandLineRunner {
     private TaskService taskService;
 
     @Override
+    @Scheduled(cron = "0 */6 * * *")
     public void run(String... args) {
 
         System.out.println("Sending Email...");
