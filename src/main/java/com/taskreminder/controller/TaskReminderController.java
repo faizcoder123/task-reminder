@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class TaskReminderController {
     }
 
     @DeleteMapping("/task/{id}")
-    public ResponseEntity<TaskEntity> deleteTask(@PathVariable long id,  Principal principal) throws ApiRequestException {
+    public ResponseEntity<TaskEntity> deleteTask(@PathVariable long id,  Principal principal) throws ApiRequestException, IOException {
         return new ResponseEntity<>(taskService.deleteTask(id, principal), HttpStatus.OK);
     }
 }
