@@ -1,37 +1,34 @@
 package com.taskreminder.essync;
 
 import com.taskreminder.entities.TaskEntity;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
 import com.taskreminder.util.DateUtil;
-import jdk.internal.joptsimple.internal.Strings;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
-import org.elasticsearch.client.ElasticsearchClient;
 import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.script.Script;
 import org.elasticsearch.script.ScriptType;
-import org.graalvm.util.CollectionsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.util.CollectionUtils;
-import org.elasticsearch.client.RestHighLevelClient;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+@Service
+@Configuration
 public class TaskReminderESService {
 
     @Value("${elasticsearch.index}")
     protected String elasticsearchIndex;
 
     @Autowired
-    @Qualifier("elasticsearchClient")
+    @Qualifier("highLevelClient")
     protected RestHighLevelClient restClient;
 
     protected void onUpdateRequest(TaskEntity task) throws IOException {

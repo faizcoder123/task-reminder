@@ -2,11 +2,9 @@ package com.taskreminder.services;
 
 import com.taskreminder.entities.Status;
 import com.taskreminder.entities.TaskEntity;
-import com.taskreminder.essync.TaskReminderESService;
 import com.taskreminder.handler.ApiRequestException;
 import com.taskreminder.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -23,9 +21,6 @@ public class TaskService {
 
     @Autowired
     private TaskRepository taskRepository;
-
-    @Autowired
-    private TaskReminderESService taskReminderESService;
 
     DateTimeFormatter formatter  = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ");
 
@@ -50,7 +45,7 @@ public class TaskService {
         TaskEntity task = getTask(id, principal);
         taskRepository.deleteById(id);
         SecurityContextHolder.clearContext();
-        taskReminderESService.onDeleteRequest(task);
+     //   taskReminderESService.onDeleteRequest(task);
         return task;
     }
 
