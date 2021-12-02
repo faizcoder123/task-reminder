@@ -2,6 +2,10 @@ package com.taskreminder.entities;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -43,4 +47,15 @@ public class UserEntity implements Serializable {
         @NotBlank
         @Size(min=10, max = 10)
         private String phoneNo;
+
+        @PostPersist
+        @PostUpdate
+        @PostRemove
+        public void operations() {
+                TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization(){
+                public void afterCommit(){
+                        SecurityContextHolder.clearContext();
+                }
+                });
+        }
 }
