@@ -12,5 +12,4 @@ import java.time.ZonedDateTime;
 public class ErrorDTO {
     private String message;
     private ZonedDateTime occurredAt;
-
 }

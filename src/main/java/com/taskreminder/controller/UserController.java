@@ -2,6 +2,7 @@ package com.taskreminder.controller;
 
 import com.taskreminder.entities.UserEntity;
 import com.taskreminder.handler.ApiRequestException;
+import com.taskreminder.responsedto.UserResponse;
 import com.taskreminder.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
 
 
 @RequestMapping("/taskReminder")
@@ -20,22 +20,22 @@ public class UserController {
     private UserService userService;
 
     @PostMapping(value = "/addUser")
-    public ResponseEntity<UserEntity> registerUser(@RequestBody UserEntity user) throws ApiRequestException{
+    public ResponseEntity<UserResponse> registerUser(@RequestBody UserEntity user) throws ApiRequestException{
         return new ResponseEntity<>(userService.saveUser(user), HttpStatus.OK);
     }
 
     @PatchMapping(value = "/updateUser/{id}")
-    public ResponseEntity<UserEntity> updateUser(@RequestBody UserEntity user, @PathVariable long id, Principal principal) throws ApiRequestException{
+    public ResponseEntity<UserResponse> updateUser(@RequestBody UserEntity user, @PathVariable long id, Principal principal) throws ApiRequestException{
         return new ResponseEntity<>(userService.updateUser(user, id, principal), HttpStatus.OK);
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<UserEntity> getUser(@PathVariable long id, Principal principal) throws ApiRequestException {
-        return new ResponseEntity<>(userService.getUser(id,principal), HttpStatus.OK);
+    public ResponseEntity<UserEntity> getUserById(@PathVariable long id, Principal principal) throws ApiRequestException {
+        return new ResponseEntity<>(userService.getUserById(id,principal), HttpStatus.OK);
     }
 
     @GetMapping("/user")
-    public ResponseEntity<UserEntity> getUserByMail(@RequestParam(required = true) String mail, Principal principal) throws ApiRequestException{
+    public ResponseEntity<UserResponse> getUserByMail(@RequestParam(required = true) String mail, Principal principal) throws ApiRequestException{
         return new ResponseEntity<>(userService.getUserByGmail(mail, principal.getName()), HttpStatus.OK);
     }
 
@@ -45,7 +45,7 @@ public class UserController {
 //    }
 
     @DeleteMapping("/user/{id}")
-    public ResponseEntity<UserEntity> deleteUser(@PathVariable long id, Principal principal) throws ApiRequestException {
+    public ResponseEntity<UserResponse> deleteUser(@PathVariable long id, Principal principal) throws ApiRequestException {
         return new ResponseEntity<>(userService.deleteUser(id, principal), HttpStatus.OK);
     }
 

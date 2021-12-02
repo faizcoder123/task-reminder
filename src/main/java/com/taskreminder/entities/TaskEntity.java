@@ -2,7 +2,7 @@ package com.taskreminder.entities;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.taskreminder.essync.TaskESTransaction;
+import com.taskreminder.aftertransaction.TaskESTransaction;
 import com.taskreminder.util.ZonedDateTimeDeserializer;
 import lombok.*;
 

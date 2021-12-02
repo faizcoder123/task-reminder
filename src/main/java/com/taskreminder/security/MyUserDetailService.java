@@ -22,7 +22,7 @@ public class MyUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        final UserEntity customer = userService.getUserByGmail(username, username);
+        final UserEntity customer = userService.getUser(username);
         if (customer == null) {
             throw new UsernameNotFoundException(username);
         }

@@ -2,7 +2,6 @@ package com.taskreminder.services;
 
 import com.taskreminder.entities.Status;
 import com.taskreminder.entities.TaskEntity;
-import com.taskreminder.essync.TaskReminderESService;
 import com.taskreminder.handler.ApiRequestException;
 import com.taskreminder.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +22,8 @@ public class TaskService {
     @Autowired
     private TaskRepository taskRepository;
 
-    @Autowired
-    private TaskReminderESService taskReminderESService;
 
-    DateTimeFormatter formatter  = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ");
+    private  static  final DateTimeFormatter FORMATTER  = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ");
 
     public List<TaskEntity> getAllTasks(Principal principal) {
         List<TaskEntity> tasks = taskRepository.findByOwnerEmail(principal.getName());
@@ -49,17 +46,16 @@ public class TaskService {
         TaskEntity task = getTask(id, principal);
         taskRepository.deleteById(id);
         SecurityContextHolder.clearContext();
-        taskReminderESService.onDeleteRequest(task);
         return task;
     }
 
     public TaskEntity addOrUpdateTask(TaskEntity task, Principal principal) {
         task.setOwnerEmail(principal.getName());
         if(Objects.isNull(task.getStatus())){
-            task.setCreatedTime(ZonedDateTime.parse(formatter.format(ZonedDateTime.now()), formatter));
+            task.setCreatedTime(ZonedDateTime.parse(FORMATTER.format(ZonedDateTime.now()), FORMATTER));
             task.setStatus(Status.STARTED);
         }
-        task.setModifiedTime(ZonedDateTime.parse(formatter.format(ZonedDateTime.now()), formatter));
+        task.setModifiedTime(ZonedDateTime.parse(FORMATTER.format(ZonedDateTime.now()), FORMATTER));
         taskRepository.save(task);
         SecurityContextHolder.clearContext();
         return task;

@@ -31,7 +31,7 @@ public class TaskReminderESService {
     @Qualifier("highLevelClient")
     protected RestHighLevelClient restClient;
 
-    protected void onUpdateRequest(TaskEntity task) throws IOException {
+    public void onUpdateRequest(TaskEntity task) throws IOException {
         UpdateRequest updateRequest = new UpdateRequest(elasticsearchIndex,"_doc" , String.valueOf(task.getId()));
         updateRequest.scriptedUpsert(true);
         updateRequest.script(updateScript(task));

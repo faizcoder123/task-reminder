@@ -27,11 +27,11 @@ public class UserEntity implements Serializable {
         private long ownerId;
 
         @NotBlank
-        @Size(min=3, max = 10)
+        @Size(min=3, max = 20)
         private String userName;
 
         @NotBlank
-        @Size(max = 20)
+        @Size(max = 100)
         @Email
         @Column(unique=true)
         private String email;

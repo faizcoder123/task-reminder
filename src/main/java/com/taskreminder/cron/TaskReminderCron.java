@@ -26,9 +26,9 @@ public class TaskReminderCron {
     @Autowired
     private TaskService taskService;
 
-    @Scheduled(fixedRate=7200000)
+    @Scheduled(cron = "0 1 1 * * ?")
     void sendEmail() {
-        List<UserEntity> users = userService.getAllUser();
+        List<UserEntity> users = userService.getAllUsers();
         for(UserEntity user : users) {
             SimpleMailMessage msg = new SimpleMailMessage();
             msg.setTo(user.getEmail());

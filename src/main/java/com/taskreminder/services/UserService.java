@@ -3,6 +3,7 @@ package com.taskreminder.services;
 import com.taskreminder.entities.UserEntity;
 import com.taskreminder.handler.ApiRequestException;
 import com.taskreminder.repository.UserRepository;
+import com.taskreminder.responsedto.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,37 +19,32 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<UserEntity> getAllUser() {
-        List<UserEntity> users = userRepository.findAll();
-        if(users.isEmpty()){
-            throw new ApiRequestException("No Users found");
-        }
-        return users;
+    public List<UserEntity> getAllUsers() {
+        return userRepository.findAll();
     }
 
-    public UserEntity deleteUser(long id, Principal principal) {
-
-        UserEntity user = getUser(id, principal);
+    public UserResponse deleteUser(long id, Principal principal) {
+        UserEntity user = getUserById(id, principal);
         userRepository.deleteById(id);
         SecurityContextHolder.clearContext();
-        return user;
+        return new UserResponse(user.getOwnerId(), user.getUserName());
     }
 
-    public UserEntity saveUser(UserEntity user) {
+    public UserResponse saveUser(UserEntity user) {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userRepository.save(user);
         SecurityContextHolder.clearContext();
-        return user;
+        return new UserResponse(user.getOwnerId(), user.getUserName());
     }
 
-    public UserEntity updateUser(UserEntity user, long id, Principal principal) {
-        getUser(id, principal);
+    public UserResponse updateUser(UserEntity user, long id, Principal principal) {
+        getUserById(id, principal);
         user.setOwnerId(id);
         SecurityContextHolder.clearContext();
-        return saveUser(user);
+        return new UserResponse(user.getOwnerId(), user.getUserName());
     }
 
-    public UserEntity getUser(long id, Principal principal) {
+    public UserEntity getUserById(long id, Principal principal) {
         Optional<UserEntity> user = userRepository.findById(id);
         if(user.isPresent()){
             if(!principal.getName().equals(user.get().getEmail())) throw new ApiRequestException("Authentication failed");
@@ -60,18 +56,19 @@ public class UserService {
             throw new ApiRequestException("User not found");
         }
     }
-
-    public UserEntity getUserByGmail(String email, String userMail) {
-        if(!email.equals(userMail))  throw new ApiRequestException("Authentication failed");
-
-        Optional<UserEntity> user = userRepository.findByEmail(email);
-        if(user.isPresent()){
-            SecurityContextHolder.clearContext();
-            return user.get();
+    public UserResponse getUserByGmail(String email, String principalMail) {
+        if(!email.equals(principalMail))  throw new ApiRequestException("Authentication failed");
+        UserEntity user = getUser(email);
+        if(user != null){
+            return new UserResponse(user.getOwnerId(), user.getUserName());
         }
         else {
-            SecurityContextHolder.clearContext();
             throw new ApiRequestException("User not found with this Email");
         }
+    }
+
+    public UserEntity getUser(String email) {
+        Optional<UserEntity> user = userRepository.findByEmail(email);
+        return user.orElse(null);
     }
 }
