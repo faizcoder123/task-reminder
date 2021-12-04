@@ -40,7 +40,8 @@ public class TaskReminderController {
     }
 
     @DeleteMapping("/task/{id}")
-    public ResponseEntity<TaskEntity> deleteTask(@PathVariable long id,  Principal principal) throws ApiRequestException, IOException {
-        return new ResponseEntity<>(taskService.deleteTask(id, principal), HttpStatus.OK);
+    public ResponseEntity<String> deleteTask(@PathVariable long id,  Principal principal) throws ApiRequestException, IOException {
+        taskService.deleteTask(id, principal);
+        return new ResponseEntity<>("{DELETED}", HttpStatus.OK);
     }
 }

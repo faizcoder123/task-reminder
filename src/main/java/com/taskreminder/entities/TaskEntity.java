@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.taskreminder.aftertransaction.TaskESTransaction;
 import com.taskreminder.util.ZonedDateTimeDeserializer;
 import lombok.*;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -51,5 +52,11 @@ public class TaskEntity implements Serializable {
     @Column(name = "owner_email")
     @NotBlank
     private String ownerEmail;
+
+    @PostPersist
+    @PostUpdate
+    @PostRemove
+    @PostLoad
+    public void operations() { SecurityContextHolder.clearContext(); }
 
 }

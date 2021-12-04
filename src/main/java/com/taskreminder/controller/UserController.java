@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.security.Principal;
 
 
@@ -19,7 +20,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping(value = "/addUser")
+    @PostMapping(value = "/registerUser")
     public ResponseEntity<UserResponse> registerUser(@RequestBody UserEntity user) throws ApiRequestException{
         return new ResponseEntity<>(userService.saveUser(user), HttpStatus.OK);
     }
@@ -45,8 +46,9 @@ public class UserController {
 //    }
 
     @DeleteMapping("/user/{id}")
-    public ResponseEntity<UserResponse> deleteUser(@PathVariable long id, Principal principal) throws ApiRequestException {
-        return new ResponseEntity<>(userService.deleteUser(id, principal), HttpStatus.OK);
+    public ResponseEntity<String> deleteUser(@PathVariable long id, Principal principal) throws ApiRequestException, IOException {
+        userService.deleteUser(id, principal);
+        return new ResponseEntity<>("{DELETED}", HttpStatus.OK);
     }
 
 }

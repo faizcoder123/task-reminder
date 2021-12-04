@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -18,14 +19,17 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private  TaskService taskService;
+
     public List<UserEntity> getAllUsers() throws ApiRequestException{
         return userRepository.findAll();
     }
 
-    public UserResponse deleteUser(long id, Principal principal) throws ApiRequestException{
-        UserEntity user = getUserById(id);
+    public void deleteUser(long id, Principal principal) throws ApiRequestException, IOException {
+        getUserById(id);
         userRepository.deleteById(id);
-        return new UserResponse(user.getOwnerId(), user.getUserName(), user.getEmail(), user.getPhoneNo());
+        taskService.deleteAllTaskOfUser(principal.getName());
     }
 
     public UserResponse saveUser(UserEntity user) throws ApiRequestException{

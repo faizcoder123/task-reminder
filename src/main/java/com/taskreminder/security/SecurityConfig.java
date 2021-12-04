@@ -25,7 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/taskReminder/addUser");
+        web.ignoring().antMatchers("/taskReminder/registerUser");
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
