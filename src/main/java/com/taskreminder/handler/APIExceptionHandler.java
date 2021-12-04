@@ -5,14 +5,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.validation.ConstraintViolationException;
 import java.time.ZonedDateTime;
 
 @RestController
@@ -20,7 +19,7 @@ import java.time.ZonedDateTime;
 public class APIExceptionHandler extends ResponseEntityExceptionHandler {
     private final Logger logger = LoggerFactory.getLogger(ExceptionHandler.class);
 
-    @ExceptionHandler(value = {ApiRequestException.class})
+    @ExceptionHandler(value = {ApiRequestException.class, RuntimeException.class})
     public final ErrorDTO  handleAPIExceptions(ApiRequestException ex) {
         logger.error("API exception occurred", ex.getCause());
         return new ErrorDTO(ex.getMessage(), ZonedDateTime.now());

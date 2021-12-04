@@ -1,12 +1,14 @@
 package com.taskreminder.entities;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.transaction.support.TransactionSynchronization;
-import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import javax.persistence.*;
+import javax.servlet.http.HttpSession;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -51,11 +53,6 @@ public class UserEntity implements Serializable {
         @PostPersist
         @PostUpdate
         @PostRemove
-        public void operations() {
-                TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization(){
-                public void afterCommit(){
-                        SecurityContextHolder.clearContext();
-                }
-                });
-        }
+        @PostLoad
+        public void operations() { SecurityContextHolder.clearContext(); }
 }

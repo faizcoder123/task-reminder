@@ -24,19 +24,19 @@ public class UserController {
         return new ResponseEntity<>(userService.saveUser(user), HttpStatus.OK);
     }
 
-    @PatchMapping(value = "/updateUser/{id}")
-    public ResponseEntity<UserResponse> updateUser(@RequestBody UserEntity user, @PathVariable long id, Principal principal) throws ApiRequestException{
-        return new ResponseEntity<>(userService.updateUser(user, id, principal), HttpStatus.OK);
+    @PatchMapping(value = "/updateUser")
+    public ResponseEntity<UserResponse> updateUser(@RequestBody UserEntity user, Principal principal) throws ApiRequestException{
+        return new ResponseEntity<>(userService.updateUser(user, principal), HttpStatus.OK);
     }
 
     @GetMapping("/user/{id}")
     public ResponseEntity<UserEntity> getUserById(@PathVariable long id, Principal principal) throws ApiRequestException {
-        return new ResponseEntity<>(userService.getUserById(id,principal), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
     }
 
     @GetMapping("/user")
-    public ResponseEntity<UserResponse> getUserByMail(@RequestParam(required = true) String mail, Principal principal) throws ApiRequestException{
-        return new ResponseEntity<>(userService.getUserByGmail(mail, principal.getName()), HttpStatus.OK);
+    public ResponseEntity<UserResponse> getUserByMail(Principal principal) throws ApiRequestException{
+        return new ResponseEntity<>(userService.getUserByGmail(principal.getName()), HttpStatus.OK);
     }
 
 //    @GetMapping("/users")

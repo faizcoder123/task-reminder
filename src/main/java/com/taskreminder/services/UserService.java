@@ -18,51 +18,47 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<UserEntity> getAllUsers() {
+    public List<UserEntity> getAllUsers() throws ApiRequestException{
         return userRepository.findAll();
     }
 
-    public UserResponse deleteUser(long id, Principal principal) {
-        UserEntity user = getUserById(id, principal);
+    public UserResponse deleteUser(long id, Principal principal) throws ApiRequestException{
+        UserEntity user = getUserById(id);
         userRepository.deleteById(id);
-        return new UserResponse(user.getOwnerId(), user.getUserName());
+        return new UserResponse(user.getOwnerId(), user.getUserName(), user.getEmail(), user.getPhoneNo());
     }
 
-    public UserResponse saveUser(UserEntity user) {
+    public UserResponse saveUser(UserEntity user) throws ApiRequestException{
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userRepository.save(user);
-        return new UserResponse(user.getOwnerId(), user.getUserName());
+        return new UserResponse(user.getOwnerId(), user.getUserName(), user.getEmail(), user.getPhoneNo());
     }
 
-    public UserResponse updateUser(UserEntity user, long id, Principal principal) {
-        getUserById(id, principal);
-        user.setOwnerId(id);
-        return new UserResponse(user.getOwnerId(), user.getUserName());
+    public UserResponse updateUser(UserEntity user, Principal principal) throws ApiRequestException{
+        getUserById(user.getOwnerId());
+        saveUser(user);
+        return new UserResponse(user.getOwnerId(), user.getUserName(), user.getEmail(), user.getPhoneNo());
     }
 
-    public UserEntity getUserById(long id, Principal principal) {
+    public UserEntity getUserById(long id) throws ApiRequestException{
         Optional<UserEntity> user = userRepository.findById(id);
         if(user.isPresent()){
-            if(!principal.getName().equals(user.get().getEmail())) throw new ApiRequestException("Authentication failed");
             return user.get();
         }
         else {
             throw new ApiRequestException("User not found");
         }
     }
-    public UserResponse getUserByGmail(String email, String principalMail) {
-        if(!email.equals(principalMail))  throw new ApiRequestException("Authentication failed");
+    public UserResponse getUserByGmail(String email) throws ApiRequestException{
         UserEntity user = getUser(email);
-        if(user != null){
-            return new UserResponse(user.getOwnerId(), user.getUserName());
-        }
-        else {
-            throw new ApiRequestException("User not found with this Email");
-        }
+        return new UserResponse(user.getOwnerId(), user.getUserName(), user.getEmail(), user.getPhoneNo());
     }
 
-    public UserEntity getUser(String email) {
+    public UserEntity getUser(String email) throws ApiRequestException{
         Optional<UserEntity> user = userRepository.findByEmail(email);
-        return user.orElse(null);
+        if(user.isPresent()){
+            return user.get();
+        }
+        throw new ApiRequestException("User not found with this Email");
     }
 }
