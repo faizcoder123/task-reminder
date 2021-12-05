@@ -44,7 +44,7 @@ public class TaskReminderESService {
     private Script updateScript(TaskEntity doc) {
         String script = "if(params.subject!=null){ctx._source.subject=params.subject;}"+
                 "if(params.created_time!=null){ctx._source.created_time=params.created_time;}"+
-                "if(params.deadline!=null){ctx._source.deadline=params.deadline;}"+
+                "if(params.dead_line!=null){ctx._source.dead_line=params.dead_line;}"+
                 "if(params.modified_time!=null){ctx._source.modified_time=params.modified_time;}" +
                 "if(params.status!=null){ctx._source.status=params.status;}" +
                 "if(params.description!=null){ctx._source.description=params.description;}" +

@@ -29,7 +29,7 @@ public class PaginationDTO implements Serializable {
     private int page;
 
     @JsonProperty("sortBy")
-    @Pattern(regexp = "deadline|createdTime", message = " must be (createdTime|deadline)")
+    @Pattern(regexp = "dead_line|created_time", message = " must be (dead_line|created_time)")
     protected String sortBy;
 
     @JsonProperty("sortOrder")

@@ -42,4 +42,8 @@ public class TaskESDTO {
     @JsonProperty("status")
     private String status;
 
+    @Field(name = "dead_line")
+    @JsonProperty("dead_line")
+    private String deadLine;
+
 }
