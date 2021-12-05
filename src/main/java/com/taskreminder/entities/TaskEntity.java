@@ -44,7 +44,7 @@ public class TaskEntity implements Serializable {
     private ZonedDateTime modifiedTime;
 
     @Column(name = "status")
-    private Status status;
+    private String status;
 
     @Column(length = 65450, columnDefinition = "text", name = "description")
     private String description;

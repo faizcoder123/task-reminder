@@ -11,6 +11,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
 
@@ -34,6 +35,7 @@ public class TaskReminderCron {
             msg.setTo(user.getEmail());
             msg.setSubject("Daily Task Reminder");
             List<TaskEntity> tasks = taskService.getAllTasksOfUser(user.getEmail());
+            markTaskExpiredIfApplicable(tasks);
             if(tasks.isEmpty()){
                 msg.setText("No tasks in the Bucket");
             }
@@ -43,6 +45,14 @@ public class TaskReminderCron {
                 msg.setText(messageText);
             }
             javaMailSender.send(msg);
+        }
+    }
+
+   private void markTaskExpiredIfApplicable(List<TaskEntity> tasks){
+        for(TaskEntity task: tasks){
+            if(task.getDeadline().compareTo(ZonedDateTime.now()) < 0){
+                task.setStatus("Expired");
+            }
         }
     }
 }

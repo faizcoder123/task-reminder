@@ -14,5 +14,6 @@ public class Constants {
     public static final List<String> ONLY_STRING_FIELDS = Arrays.asList("id");
     public static final List<String> DATE_FIELDS = Arrays.asList("created_time", "modified_time");
     public static final List<String> LIST_QUERIES = Arrays.asList("");
+    public static final List<String> TASK_STATUSES = Arrays.asList("Open", "InProgress", "Completed", "Closed", "Expired");
 
 }

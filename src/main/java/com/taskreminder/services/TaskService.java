@@ -4,7 +4,6 @@ import com.taskreminder.constants.Constants;
 import com.taskreminder.dto.PaginationDTO;
 import com.taskreminder.dto.SearchCriteriaDTO;
 import com.taskreminder.dto.TaskESDTO;
-import com.taskreminder.entities.Status;
 import com.taskreminder.entities.TaskEntity;
 import com.taskreminder.es.SearchQueryConverter;
 import com.taskreminder.handler.ApiRequestException;
@@ -63,16 +62,23 @@ public class TaskService {
         }
     }
 
-    public TaskEntity addOrUpdateTask(TaskEntity task, Principal principal) {
+    private void validateTask(TaskEntity task){
         if(task.getDeadline().compareTo(ZonedDateTime.now()) < 0){
             throw new ApiRequestException("Deadline should be greater than current time");
         }
+        else if(!Constants.TASK_STATUSES.contains(task.getStatus())){
+            throw new ApiRequestException("Task Status not Valid");
+        }
+    }
+
+    public TaskEntity addOrUpdateTask(TaskEntity task, Principal principal) {
         task.setOwnerEmail(principal.getName());
         if(Objects.isNull(task.getStatus())){
             task.setCreatedTime(ZonedDateTime.parse(Constants.FORMATTER.format(ZonedDateTime.now()), Constants.FORMATTER));
-            task.setStatus(Status.STARTED);
+            task.setStatus("Open");
         }
         task.setModifiedTime(ZonedDateTime.parse(Constants.FORMATTER.format(ZonedDateTime.now()), Constants.FORMATTER));
+        validateTask(task);
         taskRepository.save(task);
         return task;
     }
