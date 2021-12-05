@@ -1,7 +1,7 @@
 package com.taskreminder.aftertransaction;
 
 import com.taskreminder.entities.TaskEntity;
-import com.taskreminder.essync.TaskReminderESService;
+import com.taskreminder.es.TaskReminderESService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.support.TransactionSynchronization;

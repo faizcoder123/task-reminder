@@ -1,4 +1,4 @@
-package com.taskreminder.essync;
+package com.taskreminder.es;
 
 import com.taskreminder.entities.TaskEntity;
 import com.taskreminder.util.DateUtil;

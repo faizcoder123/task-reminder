@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+
 public class ElasticsearchConfig {
 
     @Value("${elasticsearch.host}")
@@ -28,6 +29,4 @@ public class ElasticsearchConfig {
     public RestHighLevelClient highLevelClient(@Autowired RestClientBuilder restClientBuilder) {
         return new RestHighLevelClient(restClientBuilder);
     }
-
-
 }
