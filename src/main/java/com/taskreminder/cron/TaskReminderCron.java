@@ -33,7 +33,7 @@ public class TaskReminderCron {
             SimpleMailMessage msg = new SimpleMailMessage();
             msg.setTo(user.getEmail());
             msg.setSubject("Daily Task Reminder");
-            List<TaskEntity> tasks = taskService.getAllTasksForReminder(user.getEmail());
+            List<TaskEntity> tasks = taskService.getAllTasksOfUser(user.getEmail());
             if(tasks.isEmpty()){
                 msg.setText("No tasks in the Bucket");
             }

@@ -32,8 +32,8 @@ public class TaskService {
         return tasks;
     }
 
-    public List<TaskEntity> getAllTasksForReminder(String user) {
-        List<TaskEntity> tasks = taskRepository.findByOwnerEmail(user);
+    public List<TaskEntity> getAllTasksOfUser(String mail) {
+        List<TaskEntity> tasks = taskRepository.findByOwnerEmail(mail);
         if(tasks.isEmpty()){
             //log("No Tasks found for this User");
         }
@@ -46,7 +46,9 @@ public class TaskService {
     }
 
     public void deleteAllTaskOfUser(String mail) throws IOException {
-        taskRepository.deleteByOwnerEmail(mail);
+        for(TaskEntity task: getAllTasksOfUser(mail)){
+            taskRepository.deleteById(task.getId());
+        }
     }
 
     public TaskEntity addOrUpdateTask(TaskEntity task, Principal principal) {
