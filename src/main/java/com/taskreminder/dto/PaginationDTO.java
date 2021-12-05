@@ -72,7 +72,7 @@ public class PaginationDTO implements Serializable {
             return indexParams.getPagination();
         }
         PaginationDTOBuilder paginationDTOBuilder = PaginationDTO.builder();
-        paginationDTOBuilder.page(0).perPage(10).sortBy("created_at").sortOrder("desc");
+        paginationDTOBuilder.page(0).perPage(10).sortBy("created_time").sortOrder("desc");
         if (page != null) {
             paginationDTOBuilder.page(page);
         }

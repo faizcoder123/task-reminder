@@ -7,8 +7,6 @@ import lombok.Setter;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 
-import java.time.ZonedDateTime;
-
 @Getter
 @Setter
 @EqualsAndHashCode
@@ -26,11 +24,11 @@ public class TaskESDTO {
 
     @Field(name = "created_time")
     @JsonProperty("created_time")
-    private ZonedDateTime createdTime;
+    private String createdTime;
 
     @Field(name = "modified_time")
     @JsonProperty("modified_time")
-    private ZonedDateTime modifiedTime;
+    private String modifiedTime;
 
     @Field(name = "subject")
     @JsonProperty("subject")
