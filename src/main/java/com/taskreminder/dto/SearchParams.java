@@ -20,7 +20,7 @@ public class SearchParams implements Serializable {
 
     private static final long serialVersionUID = 2432452352453L;
 
-    @NotNull
+
     @Valid
     @JsonProperty("searchCriteria")
     private List<SearchCriteriaDTO> searchCriteria;

@@ -21,6 +21,7 @@ import org.springframework.util.CollectionUtils;
 import java.io.IOException;
 import java.security.Principal;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -105,7 +106,7 @@ public class TaskService {
 
     public List<TaskESDTO> search(PaginationDTO pagination, List<SearchCriteriaDTO> searchCriteria, String userMail) {
         if (CollectionUtils.isEmpty(searchCriteria)) {
-            throw new ApiRequestException("Search criteria not provided");
+            searchCriteria = new ArrayList<>();
         }
         searchCriteria.add(new SearchCriteriaDTO("ownerEmail", "=", userMail));
         return findPOsInES(pagination, searchCriteria);
