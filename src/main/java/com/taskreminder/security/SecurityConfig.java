@@ -1,5 +1,8 @@
 package com.taskreminder.security;
 
+import com.taskreminder.controller.UserController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,16 +36,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http.cors().and().httpBasic()
                 .and()
                 .authorizeRequests()
-                .anyRequest().authenticated().and().cors().and().csrf().disable();
-    }
-
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
-        return source;
+                .anyRequest().authenticated().and().csrf().disable();
     }
 }

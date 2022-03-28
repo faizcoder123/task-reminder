@@ -18,6 +18,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/taskReminder")
+@CrossOrigin(
+        allowCredentials = "true",
+        origins = "http://localhost:3000",
+        allowedHeaders = "*",
+        methods = {RequestMethod.GET,RequestMethod.POST,RequestMethod.DELETE,RequestMethod.PUT}
+)
 public class TaskReminderController {
 
     @Autowired

@@ -4,6 +4,8 @@ import com.taskreminder.entities.UserEntity;
 import com.taskreminder.handler.ApiRequestException;
 import com.taskreminder.responsedto.UserResponse;
 import com.taskreminder.services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,12 @@ import java.security.Principal;
 
 
 @RequestMapping("/taskReminder")
+@CrossOrigin(
+        allowCredentials = "true",
+        origins = "http://localhost:3000",
+        allowedHeaders = "*",
+        methods = {RequestMethod.GET,RequestMethod.POST,RequestMethod.DELETE,RequestMethod.PUT}
+)
 @RestController
 public class UserController {
 
@@ -37,6 +45,7 @@ public class UserController {
 
     @GetMapping("/user")
     public ResponseEntity<UserResponse> getUserByMail(Principal principal) throws ApiRequestException{
+
         return new ResponseEntity<>(userService.getUserByGmail(principal.getName()), HttpStatus.OK);
     }
 

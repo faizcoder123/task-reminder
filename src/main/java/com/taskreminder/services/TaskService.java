@@ -79,8 +79,7 @@ public class TaskService {
         }
         task.setModifiedTime(ZonedDateTime.parse(Constants.FORMATTER.format(ZonedDateTime.now()), Constants.FORMATTER));
         validateTask(task);
-        taskRepository.save(task);
-        return task;
+        return taskRepository.save(task);
     }
 
     public TaskEntity updateTask(TaskEntity task, long id, Principal principal) {
