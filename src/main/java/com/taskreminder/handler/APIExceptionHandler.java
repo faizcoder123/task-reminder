@@ -20,6 +20,7 @@ public class APIExceptionHandler extends ResponseEntityExceptionHandler {
     private final Logger logger = LoggerFactory.getLogger(ExceptionHandler.class);
 
     @ExceptionHandler(value = {ApiRequestException.class, RuntimeException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public final ErrorDTO  handleAPIExceptions(ApiRequestException ex) {
         logger.error("API exception occurred", ex.getCause());
         return new ErrorDTO(ex.getMessage(), ZonedDateTime.now());
