@@ -22,7 +22,7 @@ import java.util.List;
         allowCredentials = "true",
         origins = "http://localhost:3000",
         allowedHeaders = "*",
-        methods = {RequestMethod.GET,RequestMethod.POST,RequestMethod.DELETE,RequestMethod.PUT}
+        methods = {RequestMethod.GET,RequestMethod.POST,RequestMethod.DELETE,RequestMethod.PATCH}
 )
 public class TaskReminderController {
 
