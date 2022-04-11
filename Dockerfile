@@ -1,0 +1,5 @@
+
+FROM postgres
+ENV POSTGRES_PASSWORD postgres
+EXPOSE 5432
+ENV POSTGRES_DB task_reminder
