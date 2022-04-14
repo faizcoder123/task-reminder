@@ -109,10 +109,10 @@ public class TaskService {
             searchCriteria = new ArrayList<>();
         }
         searchCriteria.add(new SearchCriteriaDTO("ownerEmail", "=", userMail));
-        return findPOsInES(pagination, searchCriteria);
+        return findTasksInES(pagination, searchCriteria);
     }
 
-    public List<TaskESDTO> findPOsInES(PaginationDTO pagination, List<SearchCriteriaDTO> searchCriteria)  {
+    public List<TaskESDTO> findTasksInES(PaginationDTO pagination, List<SearchCriteriaDTO> searchCriteria)  {
         BoolQueryBuilder query = SearchQueryConverter.getQuery(searchCriteria);
         Query nativeSearchQuery = new NativeSearchQueryBuilder()
                 .withQuery(query).withPageable(pagination.pageable((pagination)))
